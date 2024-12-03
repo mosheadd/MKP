@@ -51,7 +51,7 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 		if (abs(b - a) < 2 * epsilon)
 		{
 
-			std::cout << "Не достигнуто нужного количества итераций.\n";
+			std::cout << "Not reached\n";
 			break;
 
 		}
@@ -112,7 +112,7 @@ float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 		if (abs(b - a) < 2 * epsilon)
 		{
 
-			std::cout << "Не достигнуто нужного количества итераций.\n";
+			std::cout << "Not reached\n";
 			break;
 
 		}
@@ -128,7 +128,7 @@ float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 
 
 //Функция нахождения решения 
-void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int))
+void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon)
 {
 
 	//Данные графика
@@ -147,30 +147,49 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 	int T = object.get_T();
 
 
-	float epsilon = 0.0001;
-
-
+	//Сам алгоритм
 	int iteration_delta = 500;
 
-	for (int t = 0; t < T; t += 500)
+	float M, E, V;
+
+	for (int t = 500; t < T; t += iteration_delta)
 	{
 
-		float M = n * t;
+		M = n * t;
 
 		M_axis.push_back(M);
 
 
-		float E = func(M, e, epsilon, 10000);
+		E = func(M, e, epsilon, 10000);
 
 		E_axis.push_back(E);
 
 
-		float V = trueAnomaly(e, E);
+		V = trueAnomaly(e, E);
 
 		V_axis.push_back(E);
 
 
+		std::cout << V << " " << E << " " << M << std::endl;
+
+
 	}
+
+	M = n * T;
+	
+	M_axis.push_back(M);
+
+
+	E = func(M, e, epsilon, 10000);
+
+	E_axis.push_back(E);
+
+
+	V = trueAnomaly(e, E);
+
+	V_axis.push_back(V);
+
+	std::cout << V << " " << E << " " << M << std::endl;
 
 
 }

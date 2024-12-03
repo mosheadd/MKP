@@ -10,7 +10,7 @@ namespace mkp
 
 	const float PI = 3.14159;
 	const float kappa = 1.618;
-	const float G = 6.67e-11;
+	const float G = 6.67430e-11;
 
 
 	class SpaceObject
@@ -45,6 +45,6 @@ namespace mkp
 
 	float goldenratio(float M, float e, float epsilon, int max_it);
 
-	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int));
+	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon);
 
 }
