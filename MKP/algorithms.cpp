@@ -125,6 +125,26 @@ float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 
 }
 
+float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
+{
+	
+	float E0 = M;
+	float E = e * sin(E0) + M;
+
+	for (int i = 0; i < max_it; i++)
+	{
+
+		if (abs(E - E0) < epsilon)
+			return E;
+
+	}
+
+	std::cout << "Max number of iterations reached\n";
+
+	return E;
+
+}
+
 
 
 //Функция нахождения решения 

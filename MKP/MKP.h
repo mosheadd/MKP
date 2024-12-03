@@ -45,6 +45,8 @@ namespace mkp
 
 	float goldenratio(float M, float e, float epsilon, int max_it);
 
+	float fixedpoint(float M, float e, float epsilon, int max_it);
+
 	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon);
 
 }
