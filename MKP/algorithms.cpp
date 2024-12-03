@@ -65,7 +65,7 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 }
 
 
-
+//Реализации метода золотого сечения
 float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 {
 
@@ -127,10 +127,50 @@ float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 
 
 
-//Функция нахожждения решения 
+//Функция нахождения решения 
 void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int))
 {
 
+	//Данные графика
+	std::vector<float> M_axis;
+	std::vector<float> E_axis;
+	std::vector<float> V_axis;
+
+	std::vector<int> t_axis;
+
+
+	//Данные объекта
+	float e = object.get_e();
+	float a = object.get_a();
+	float n = object.get_n();
+
+	int T = object.get_T();
+
+
+	float epsilon = 0.0001;
+
+
+	int iteration_delta = 500;
+
+	for (int t = 0; t < T; t += 500)
+	{
+
+		float M = n * t;
+
+		M_axis.push_back(M);
+
+
+		float E = func(M, e, epsilon, 10000);
+
+		E_axis.push_back(E);
+
+
+		float V = trueAnomaly(e, E);
+
+		V_axis.push_back(E);
+
+
+	}
 
 
 }

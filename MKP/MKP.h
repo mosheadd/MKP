@@ -38,6 +38,8 @@ namespace mkp
 
 	float KeplerEquation(float M, float e, float E);
 
+	float trueAnomaly(float e, float E);
+
 
 	float bisection(float M, float e, float epsilon, int max_it);
 
