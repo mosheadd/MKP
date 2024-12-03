@@ -5,7 +5,7 @@ namespace mkp
 {
 
 
-	SpaceObject::SpaceObject(int mass, float e, float a)
+	SpaceObject::SpaceObject(unsigned _int64 mass, float e, float a)
 	{
 
 		this->mass = mass;
@@ -15,6 +15,8 @@ namespace mkp
 		float nyu = G * mass;
 
 		T = 2 * PI * sqrt(pow(a, 3) / nyu);
+
+		std::cout << T;
 
 		n = 2 * PI / T;
 
@@ -26,9 +28,8 @@ namespace mkp
 
 	int SpaceObject::get_T() { return T; }
 
-
-	float KeplerEquation(float M, float e, float E) { return E - e * sin(E) - M; }
-
+	
+	//Алгоритмы вычисления корня уравнения Кеплеа
 
 	float bisection(float M, float e, float epsilon, int max_it)
 	{
@@ -86,6 +87,20 @@ namespace mkp
 		abPares retValue = seqOfSegments_ab[seqOfSegments_ab.size() - 1];
 
 		return (retValue.a + retValue.b) / 2;
+
+	}
+
+
+	//Остальный функции
+
+	float KeplerEquation(float M, float e, float E) { return E - e * sin(E) - M; }
+
+	float trueAnomaly(float e, float E)
+	{
+
+		float V = 2 * atan(sqrt((1 + e) / (1 - e)) * tan(E / 2));
+
+		return V;
 
 	}
 

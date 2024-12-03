@@ -8,7 +8,7 @@ namespace mkp
 {
 
 
-	const float PI = 3.1459;
+	const float PI = 3.14159;
 	const float kappa = 1.618;
 	const float G = 6.67e-11;
 
@@ -20,12 +20,12 @@ namespace mkp
 		float a;
 		float n;
 
-		int mass;
+		unsigned _int64 mass;
 		int T;
 
 
 	public:
-		SpaceObject(int mass, float e, float a);
+		SpaceObject(unsigned _int64 mass, float e, float a);
 
 		float get_e();
 		float get_a();
