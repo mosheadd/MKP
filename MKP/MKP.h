@@ -41,4 +41,6 @@ namespace mkp
 
 	float bisection(float M, float e, float epsilon, int max_it);
 
+	void findRootsOfKepEq(SpaceObject& object);
+
 }
