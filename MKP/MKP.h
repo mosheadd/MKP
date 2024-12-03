@@ -16,8 +16,15 @@ namespace mkp
 
 		float e;
 		float a;
+		float n;
 
 		int mass;
+		int T;
+
+
+	public:
+		SpaceObject(int mass, float e, float a);
+
 
 	};
 
