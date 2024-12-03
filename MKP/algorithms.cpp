@@ -145,6 +145,36 @@ float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
 
 }
 
+float mkp::newton(float M, float e, float epsilon, int max_it)
+{
+	
+	float E = M;
+
+	for (int i = 0; i < max_it; i++)
+	{
+
+		float f = KeplerEquation(M, e, E);
+		float df = 1 - e * cos(E);
+
+
+		float dE = -(f / df);
+
+		E += dE;
+
+
+		if (abs(dE) < epsilon)
+			return E;
+
+	}
+
+
+	std::cout << "Max number of iterations reached\n";
+
+	return E;
+
+
+}
+
 
 
 //Функция нахождения решения 
