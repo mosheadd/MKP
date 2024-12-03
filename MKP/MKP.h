@@ -1,5 +1,6 @@
 #pragma once
 #include "cmath"
+#include "vector"
 
 
 namespace mkp
@@ -25,7 +26,18 @@ namespace mkp
 	public:
 		SpaceObject(int mass, float e, float a);
 
+		float get_e();
+		float get_a();
+		float get_n();
+
+		int get_T();
 
 	};
+
+
+	float KeplerEquation(float M, float e, float E);
+
+
+	float bisection(float M, float e, float epsilon, int max_it);
 
 }

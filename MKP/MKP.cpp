@@ -21,4 +21,11 @@ namespace mkp
 	}
 
 
+	float SpaceObject::get_e() { return e; }
+	float SpaceObject::get_a() { return a; }
+	float SpaceObject::get_n() { return n; }
+
+	int SpaceObject::get_T() { return T; }
+
+
 }
