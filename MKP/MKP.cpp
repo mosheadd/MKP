@@ -39,6 +39,9 @@ namespace mkp
 
 		float V = 2 * atan(sqrt((1 + e) / (1 - e)) * tan(E / 2));
 
+		if (V < 0)
+			V += 2 * PI;
+
 		return V;
 
 	}
