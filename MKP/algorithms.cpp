@@ -180,16 +180,18 @@ float mkp::newton(float M, float e, float epsilon, int max_it)
 
 
 
-//Функция нахождения решения 
+//Функция нахождения самого решения 
 void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
 {
 
-	//Данные графика
-	std::vector<float> M_axis;
-	std::vector<float> E_axis;
-	std::vector<float> V_axis;
 
-	std::vector<int> t_axis;
+	//Данные графика
+	std::vector<std::pair<float, float>> M_graph;
+	std::vector<std::pair<float, float>> E_graph;
+	std::vector<std::pair<float, float>> V_graph;
+	M_graph.emplace_back(0.f, 0.f);
+	E_graph.emplace_back(0.f, 0.f);
+	V_graph.emplace_back(0.f, 0.f);
 
 
 	//Данные объекта
@@ -210,17 +212,17 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 
 		M = n * t;
 
-		M_axis.push_back(M);
+		M_graph.emplace_back((float)t, M);
 
 
 		E = func(M, e, epsilon, max_it);
 
-		E_axis.push_back(E);
+		E_graph.emplace_back((float)t, E);
 
 
 		V = trueAnomaly(e, E);
 
-		V_axis.push_back(E);
+		V_graph.emplace_back((float)t, V);
 
 
 		std::cout << V << " " << E << " " << M << std::endl;
@@ -230,19 +232,51 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 
 	M = n * T;
 	
-	M_axis.push_back(M);
+	M_graph.emplace_back((float)T, M);
 
 
 	E = func(M, e, epsilon, 10000);
 
-	E_axis.push_back(E);
+	E_graph.emplace_back((float)T, E);
 
 
 	V = trueAnomaly(e, E);
 
-	V_axis.push_back(V);
+	V_graph.emplace_back((float)T, V);
 
-	std::cout << V << " " << E << " " << M << std::endl;
+	std::cout << V << " " << E << " " << M << "\n\n";
+
+
+	std::cout << "Ploting...\n";
+
+
+	try
+	{
+
+		Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
+
+		gp << "set title 'Test'\n";
+
+		gp << "plot ";
+		gp << "'-' with lines smooth mcsplines title 'V', ";
+		gp << "'-' with lines smooth mcsplines title 'E', ";
+		gp << "'-' with lines smooth mcsplines title 'M'\n";
+
+		gp.send1d(V_graph);
+		gp.send1d(E_graph);
+		gp.send1d(M_graph);
+
+		std::cout << "Success...\nEnter anything to continue...\n";
+
+		std::cin.get();
+
+	}
+	catch (...)
+	{
+
+		std::cout << "Error ploting...\n\n";
+
+	}
 
 
 }

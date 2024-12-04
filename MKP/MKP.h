@@ -2,6 +2,7 @@
 #include "iostream"
 #include "cmath"
 #include "vector"
+#include "gnuplot-iostream.h"
 
 
 namespace mkp
