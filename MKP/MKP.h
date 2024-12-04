@@ -10,7 +10,8 @@ namespace mkp
 
 	const float PI = 3.14159;
 	const float kappa = 1.618;
-	const float G = 6.67430e-11;
+
+	const int nyu = 398600;
 
 
 	class SpaceObject
@@ -20,12 +21,11 @@ namespace mkp
 		float a;
 		float n;
 
-		unsigned _int64 mass;
 		int T;
 
 
 	public:
-		SpaceObject(unsigned _int64 mass, float e, float a);
+		SpaceObject(float e, float a);
 
 		float get_e();
 		float get_a();
@@ -49,6 +49,6 @@ namespace mkp
 
 	float newton(float M, float e, float epsilon, int max_it);
 
-	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon);
+	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
 
 }

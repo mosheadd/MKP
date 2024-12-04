@@ -6,20 +6,19 @@ namespace mkp
 
 	//Реализация класса космического объекта
 
-	SpaceObject::SpaceObject(unsigned _int64 mass, float e, float a)
+	SpaceObject::SpaceObject(float e, float a)
 	{
 
-		this->mass = mass;
 		this->e = e;
 		this->a = a;
 
-		float nyu = G * mass;
 
 		T = 2 * PI * sqrt(pow(a, 3) / nyu);
 
-		std::cout << T;
-
 		n = 2 * PI / T;
+
+		std::cout << "T: " << T << "\n";
+		std::cout << "n: " << n << "\n\n";
 
 	}
 
