@@ -137,6 +137,9 @@ float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
 		if (abs(E - E0) < epsilon)
 			return E;
 
+		E0 = E;
+		E = e * sin(E0) + M;
+
 	}
 
 	std::cout << "Max number of iterations reached\n";
@@ -178,7 +181,7 @@ float mkp::newton(float M, float e, float epsilon, int max_it)
 
 
 //Функция нахождения решения 
-void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon)
+void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
 {
 
 	//Данные графика
@@ -210,7 +213,7 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 		M_axis.push_back(M);
 
 
-		E = func(M, e, epsilon, 10000);
+		E = func(M, e, epsilon, max_it);
 
 		E_axis.push_back(E);
 
