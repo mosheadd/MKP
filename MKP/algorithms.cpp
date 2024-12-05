@@ -396,9 +396,12 @@ void mkp::findVelocities(SpaceObject& object, float(*func)(float, float, float, 
 	//Фокальный праметр
 	float p = a * (1 - e * e);
 
+
+	float Vn0 = sqrt(nyu / p) * (1 + e);
+
 	Vr_graph.emplace_back(0.f, 0.f);
-	Vn_graph.emplace_back(0.f, 0.f);
-	V_graph.emplace_back(0.f, 0.f);
+	Vn_graph.emplace_back(0.f, Vn0);
+	V_graph.emplace_back(0.f, Vn0);
 	
 
 	float M, E, v, V, Vr, Vn;
@@ -421,7 +424,7 @@ void mkp::findVelocities(SpaceObject& object, float(*func)(float, float, float, 
 
 		Vn = sqrt(nyu / p) * (1 + e * cos(v));
 
-		Vn_graph.emplace_back((float)t, Vr);
+		Vn_graph.emplace_back((float)t, Vn);
 
 		V = sqrt(Vr * Vr + Vn * Vn);
 
@@ -443,7 +446,7 @@ void mkp::findVelocities(SpaceObject& object, float(*func)(float, float, float, 
 
 	Vn = sqrt(nyu / p) * (1 + e * cos(v));
 
-	Vn_graph.emplace_back((float)T, Vr);
+	Vn_graph.emplace_back((float)T, Vn);
 
 	V = sqrt(Vr * Vr + Vn * Vn);
 
