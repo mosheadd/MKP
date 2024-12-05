@@ -22,8 +22,9 @@ namespace mkp
 
 		int T;
 
-
 	public:
+
+
 		SpaceObject(float e, float a, int nyu);
 
 		float get_e();
@@ -51,5 +52,7 @@ namespace mkp
 	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
 
 	void findRadVec(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
+
+	void findVelocities(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it, int nyu);
 
 }

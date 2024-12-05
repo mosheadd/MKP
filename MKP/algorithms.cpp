@@ -51,7 +51,7 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 		if (abs(b - a) < 2 * epsilon)
 		{
 
-			std::cout << "Not reached\n";
+			//std::cout << "Not reached\n";
 			break;
 
 		}
@@ -112,7 +112,7 @@ float mkp::goldensection(float M, float e, float epsilon, int max_it)
 		if (abs(b - a) < 2 * epsilon)
 		{
 
-			std::cout << "Not reached\n";
+			//std::cout << "Not reached\n";
 			break;
 
 		}
@@ -183,7 +183,6 @@ float mkp::newton(float M, float e, float epsilon, int max_it)
 }
 
 
-
 //Функция нахождения самого решения 
 void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
 {
@@ -192,10 +191,10 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 	//Данные графика
 	std::vector<std::pair<float, float>> M_graph;
 	std::vector<std::pair<float, float>> E_graph;
-	std::vector<std::pair<float, float>> V_graph;
+	std::vector<std::pair<float, float>> v_graph;
 	M_graph.emplace_back(0.f, 0.f);
 	E_graph.emplace_back(0.f, 0.f);
-	V_graph.emplace_back(0.f, 0.f);
+	v_graph.emplace_back(0.f, 0.f);
 
 
 	//Данные объекта
@@ -209,7 +208,7 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 	//Сам алгоритм
 	int iteration_delta = 500;
 
-	float M, E, V;
+	float M, E, v;
 
 	for (int t = 500; t < T; t += iteration_delta)
 	{
@@ -224,12 +223,12 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 		E_graph.emplace_back((float)t, E);
 
 
-		V = trueAnomaly(e, E);
+		v = trueAnomaly(e, E);
 
-		V_graph.emplace_back((float)t, V);
+		v_graph.emplace_back((float)t, v);
 
 
-		std::cout << V << " " << E << " " << M << std::endl;
+		std::cout << v << " " << E << " " << M << std::endl;
 
 
 	}
@@ -244,11 +243,11 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 	E_graph.emplace_back((float)T, E);
 
 
-	V = trueAnomaly(e, E);
+	v = trueAnomaly(e, E);
 
-	V_graph.emplace_back((float)T, V);
+	v_graph.emplace_back((float)T, v);
 
-	std::cout << V << " " << E << " " << M << "\n\n";
+	std::cout << v << " " << E << " " << M << "\n\n";
 
 
 	std::cout << "Ploting...\n";
@@ -266,7 +265,7 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 		gp << "'-' with lines smooth mcsplines title 'E', ";
 		gp << "'-' with lines smooth mcsplines title 'M'\n";
 
-		gp.send1d(V_graph);
+		gp.send1d(v_graph);
 		gp.send1d(E_graph);
 		gp.send1d(M_graph);
 
@@ -304,30 +303,45 @@ void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int)
 
 	//Фокальный праметр
 	float p = a * (1 - e * e);
+	std::cout <<"\n" << p << "\n";
 
 
 	float r0 = p / (1 + e);
 	r_graph.emplace_back(0.f, r0);
 
 
-	float M, E, V, r;
+	float M, E, v, r;
 
 	//Расчет
 
-	for (int t = 500; t < T; t++)
+	int iteration_delta = 500;
+
+	for (int t = 500; t < T; t+=iteration_delta)
 	{
 
 		M = n * t;
 
 		E = func(M, e, epsilon, max_it);
 
-		V = trueAnomaly(e, E);
+		v = trueAnomaly(e, E);
 
-		r = p / (1 + e * cos(V));
+		r = p / (1 + e * cos(v));
 
-		r_graph.emplace_back(t, e);
+		//std::cout << V << "\n";
+
+		r_graph.emplace_back(t, r);
 
 	}
+
+	M = n * T;
+
+	E = func(M, e, epsilon, max_it);
+
+	v = trueAnomaly(e, E);
+
+	r = p / (1 + e * cos(v));
+
+	r_graph.emplace_back(T, r);
 
 
 	std::cout << "Ploting...\n";
@@ -340,13 +354,15 @@ void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int)
 		
 		gp << "set title 'График радиус-вектора'\n";
 
-		gp << "plot '-' wiht lines smooth mcsplines title 'r'\n";
+		gp << "plot '-' with lines smooth mcsplines title 'r'\n";
 
 		
 		gp.send1d(r_graph);
 
 
 		std::cout << "Success...\n";
+
+		system("pause");
 
 
 	}
@@ -357,5 +373,112 @@ void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int)
 
 	}
 	
+
+}
+
+void mkp::findVelocities(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it, int nyu)
+{
+
+	//Данные графиков скоростей
+	std::vector<std::pair<float, float>> Vr_graph;
+	std::vector<std::pair<float, float>> Vn_graph;
+	std::vector<std::pair<float, float>> V_graph;
+
+
+	//Данные объекта
+	float e = object.get_e();
+	float a = object.get_a();
+	float n = object.get_n();
+
+	int T = object.get_T();
+
+
+	//Фокальный праметр
+	float p = a * (1 - e * e);
+
+	Vr_graph.emplace_back(0.f, 0.f);
+	Vn_graph.emplace_back(0.f, 0.f);
+	V_graph.emplace_back(0.f, 0.f);
+	
+
+	float M, E, v, V, Vr, Vn;
+
+	int iteration_delta = 500;
+
+
+	for (int t = 500; t < T; t+= iteration_delta)
+	{
+
+		M = n * t;
+
+		E = func(M, e, epsilon, max_it);
+
+		v = trueAnomaly(e, E);
+
+		Vr = sqrt(nyu / p) * e * sin(v);
+
+		Vr_graph.emplace_back((float)t, Vr);
+
+		Vn = sqrt(nyu / p) * (1 + e * cos(v));
+
+		Vn_graph.emplace_back((float)t, Vr);
+
+		V = sqrt(Vr * Vr + Vn * Vn);
+
+		V_graph.emplace_back((float)t, V);
+
+		std::cout << Vr << " " << Vn << " " << V << "\n";
+
+	}
+
+	M = n * T;
+
+	E = func(M, e, epsilon, max_it);
+
+	v = trueAnomaly(e, E);
+
+	Vr = sqrt(nyu / p) * e * sin(v);
+
+	Vr_graph.emplace_back((float)T, Vr);
+
+	Vn = sqrt(nyu / p) * (1 + e * cos(v));
+
+	Vn_graph.emplace_back((float)T, Vr);
+
+	V = sqrt(Vr * Vr + Vn * Vn);
+
+	V_graph.emplace_back((float)T, V);
+
+
+	std::cout << "Ploting...\n";
+
+	try
+	{
+
+		Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
+
+		gp << "set title 'Графики скоростей'\n";
+
+		gp << "plot ";
+		gp << "'-' with lines smooth mcsplines title 'Vr', ";
+		gp << "'-' with lines smooth mcsplines title 'Vn', ";
+		gp << "'-' with lines smooth mcsplines title 'V'\n";
+
+		gp.send1d(Vr_graph);
+		gp.send1d(Vn_graph);
+		gp.send1d(V_graph);
+
+		std::cout << "Success...\n";
+
+		system("pause");
+
+	}
+	catch (...)
+	{
+
+		std::cout << "Error...\n";
+
+	}
+
 
 }
