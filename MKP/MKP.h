@@ -12,8 +12,6 @@ namespace mkp
 	const float PI = 3.14159;
 	const float kappa = 1.618;
 
-	const int nyu = 398600;
-
 
 	class SpaceObject
 	{
@@ -26,7 +24,7 @@ namespace mkp
 
 
 	public:
-		SpaceObject(float e, float a);
+		SpaceObject(float e, float a, int nyu);
 
 		float get_e();
 		float get_a();

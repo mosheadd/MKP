@@ -6,7 +6,7 @@ namespace mkp
 
 	//Реализация класса космического объекта
 
-	SpaceObject::SpaceObject(float e, float a)
+	SpaceObject::SpaceObject(float e, float a, int nyu)
 	{
 
 		this->e = e;
