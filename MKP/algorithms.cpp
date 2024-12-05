@@ -1,4 +1,5 @@
 #include "MKP.h"
+#include "fstream"
 
 
 using namespace mkp;
@@ -326,6 +327,16 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 		std::cin >> choice;
 
 
+		std::ofstream outAnomalies("anomalies.txt");
+		std::ofstream outPosition("position.txt");
+		std::ofstream outVelocities("velocities.txt");
+
+
+		int iterationCount = T / iteration_delta + 1;
+
+
+		std::string vstr, Mstr, Estr, rstr, Vrstr, Vnstr, Vstr, tstr;
+
 		switch(choice)
 		{
 		case 1:
@@ -366,10 +377,43 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 			break;
 		case 4:
 
+			
+			if (outAnomalies.is_open() && outPosition.is_open() && outVelocities.is_open())
+			{
+
+				for (int i = 0; i < iterationCount; i++)
+				{
+
+					
+					vstr = std::to_string(v_graph[i].second);
+					Estr = std::to_string(E_graph[i].second);
+					Mstr = std::to_string(M_graph[i].second);
+
+					rstr = std::to_string(r_graph[i].second);
+
+					Vrstr = std::to_string(Vr_graph[i].second);
+					Vnstr = std::to_string(Vn_graph[i].second);
+					Vstr = std::to_string(V_graph[i].second);
+
+					tstr = std::to_string(i * iteration_delta);
+
+					outAnomalies << vstr << " " << Estr << " " << Mstr << " " << tstr << "\n";
+					outPosition << rstr << " " << tstr << "\n";
+					outVelocities << Vrstr << " " << Vnstr << " " << Vstr << " " << tstr << "\n";
+
+				}
+
+			}
+			
+
 			break;
 		default:
 			return;
 		}
+
+		outAnomalies.close();
+		outPosition.close();
+		outVelocities.close();
 
 
 	}
