@@ -8,7 +8,7 @@
 namespace mkp
 {
 
-
+	
 	const float PI = 3.14159;
 	const float kappa = 1.618;
 
@@ -42,7 +42,7 @@ namespace mkp
 
 	float bisection(float M, float e, float epsilon, int max_it);
 
-	float goldenratio(float M, float e, float epsilon, int max_it);
+	float goldensection(float M, float e, float epsilon, int max_it);
 
 	float fixedpoint(float M, float e, float epsilon, int max_it);
 

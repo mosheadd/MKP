@@ -66,7 +66,7 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 
 
 //Реализации метода золотого сечения
-float mkp::goldenratio(float M, float e, float epsilon, int max_it)
+float mkp::goldensection(float M, float e, float epsilon, int max_it)
 {
 
 	struct abPares
