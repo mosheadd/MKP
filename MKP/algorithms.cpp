@@ -284,3 +284,47 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 
 
 }
+
+void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
+{
+
+	std::vector <std::pair<float, float>> r_graph;
+
+
+	//Данные объекта
+	float e = object.get_e();
+	float a = object.get_a();
+	float n = object.get_n();
+
+	int T = object.get_T();
+
+
+	//Фокальный праметр
+	float p = a * (1 - e * e);
+
+
+	float r0 = p / (1 + e);
+	r_graph.emplace_back(0.f, r0);
+
+
+	float M, E, V, r;
+
+	//Расчет
+
+	for (int t = 500; t < T; t++)
+	{
+
+		M = n * t;
+
+		E = func(M, e, epsilon, max_it);
+
+		V = trueAnomaly(e, E);
+
+		r = p / (1 + e * cos(V));
+
+		r_graph.emplace_back(t, e);
+
+	}
+	
+
+}

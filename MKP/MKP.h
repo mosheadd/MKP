@@ -50,4 +50,6 @@ namespace mkp
 
 	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
 
+	void findRadVec(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
+
 }
