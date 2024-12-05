@@ -125,6 +125,8 @@ float mkp::goldenratio(float M, float e, float epsilon, int max_it)
 
 }
 
+
+//Реализация метода итераций
 float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
 {
 	
@@ -148,6 +150,8 @@ float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
 
 }
 
+
+//Реализация метода Ньютона
 float mkp::newton(float M, float e, float epsilon, int max_it)
 {
 	
@@ -255,7 +259,7 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 
 		Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
 
-		gp << "set title 'Test'\n";
+		gp << "set title 'График аномалий объекта'\n";
 
 		gp << "plot ";
 		gp << "'-' with lines smooth mcsplines title 'V', ";
@@ -266,9 +270,9 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 		gp.send1d(E_graph);
 		gp.send1d(M_graph);
 
-		std::cout << "Success...\nEnter anything to continue...\n";
+		std::cout << "Success...\n";
 
-		std::cin.get();
+		system("pause");
 
 	}
 	catch (...)
