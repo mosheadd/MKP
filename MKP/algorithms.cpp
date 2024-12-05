@@ -285,9 +285,12 @@ void mkp::findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float
 
 }
 
+
+//Реализация графика радиус вектора
 void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
 {
 
+	//Данные графика для радиус-вектора
 	std::vector <std::pair<float, float>> r_graph;
 
 
@@ -323,6 +326,34 @@ void mkp::findRadVec(SpaceObject& object, float(*func)(float, float, float, int)
 		r = p / (1 + e * cos(V));
 
 		r_graph.emplace_back(t, e);
+
+	}
+
+
+	std::cout << "Ploting...\n";
+
+	try
+	{
+
+		Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
+
+		
+		gp << "set title 'График радиус-вектора'\n";
+
+		gp << "plot '-' wiht lines smooth mcsplines title 'r'\n";
+
+		
+		gp.send1d(r_graph);
+
+
+		std::cout << "Success...\n";
+
+
+	}
+	catch (...)
+	{
+
+		std::cout << "Error...\n";
 
 	}
 	
