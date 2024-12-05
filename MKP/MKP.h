@@ -20,6 +20,7 @@ namespace mkp
 		float a;
 		float n;
 
+		int nyu;
 		int T;
 
 	public:
@@ -31,6 +32,7 @@ namespace mkp
 		float get_a();
 		float get_n();
 
+		int get_nyu();
 		int get_T();
 
 	};
@@ -49,10 +51,7 @@ namespace mkp
 
 	float newton(float M, float e, float epsilon, int max_it);
 
-	void findRootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
+	void rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
 
-	void findRadVec(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
-
-	void findVelocities(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it, int nyu);
 
 }

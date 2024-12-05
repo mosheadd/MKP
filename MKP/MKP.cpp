@@ -11,6 +11,7 @@ namespace mkp
 
 		this->e = e;
 		this->a = a;
+		this->nyu = nyu;
 
 
 		T = 2 * PI * sqrt(pow(a, 3) / nyu);
@@ -26,6 +27,7 @@ namespace mkp
 	float SpaceObject::get_a() { return a; }
 	float SpaceObject::get_n() { return n; }
 
+	int SpaceObject::get_nyu() { return nyu; }
 	int SpaceObject::get_T() { return T; }
 
 
