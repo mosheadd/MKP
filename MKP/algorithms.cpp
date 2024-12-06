@@ -37,7 +37,7 @@ double mkp::bisection(double M, double e, double epsilon, int max_it)
 
 		if (f == 0)
 		{
-			std::cout << iterationsCount << "\n";
+			std::cout << iterationsCount + 1<< "\n";
 			return E;
 		}
 
@@ -55,19 +55,14 @@ double mkp::bisection(double M, double e, double epsilon, int max_it)
 
 
 		if (abs(b - a) < 2 * epsilon)
-		{
-
-			//std::cout << "Not reached\n";
 			break;
-
-		}
 
 		iterationsCount++;
 
 	}
 
 
-	std::cout << iterationsCount << "\n";
+	std::cout << iterationsCount + 1<< "\n";
 
 	abPares retValue = seqOfSegments_ab[seqOfSegments_ab.size() - 1];
 
@@ -109,7 +104,7 @@ double mkp::goldensection(double M, double e, double epsilon, int max_it)
 		if (f == 0)
 		{
 
-			std::cout << iterationscount << "\n";
+			std::cout << iterationscount + 1<< "\n";
 			return E;
 		}
 
@@ -127,19 +122,15 @@ double mkp::goldensection(double M, double e, double epsilon, int max_it)
 
 
 		if (abs(b - a) < 2 * epsilon)
-		{
-
-			//std::cout << "Not reached\n";
 			break;
 
-		}
 
 		iterationscount++;
 
 	}
 
 
-	std::cout << iterationscount << "\n";
+	std::cout << iterationscount + 1<< "\n";
 
 
 	abPares retValue = seqOfSegments_ab[seqOfSegments_ab.size() - 1];
@@ -164,7 +155,7 @@ double mkp::fixedpoint(double M, double e, double epsilon, int max_it)
 
 		if (abs(E - E0) < epsilon)
 		{
-			std::cout << iterationsCount << "\n";
+			std::cout << iterationsCount + 1<< "\n";
 			return E;
 		}
 
@@ -205,14 +196,14 @@ double mkp::newton(double M, double e, double epsilon, int max_it)
 
 		if (abs(dE) < epsilon)
 		{
-			std::cout << iterationsCount << "\n";
+			std::cout << iterationsCount + 1 << "\n";
 			return E;
 		}
 
 	}
 
 
-	std::cout<<iterationsCount << "\n";
+	std::cout<<iterationsCount + 1<< "\n";
 
 	return E;
 
