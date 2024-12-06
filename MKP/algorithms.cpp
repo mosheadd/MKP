@@ -327,9 +327,9 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 		std::cin >> choice;
 
 
-		std::ofstream outAnomalies("anomalies.txt");
-		std::ofstream outPosition("position.txt");
-		std::ofstream outVelocities("velocities.txt");
+		std::ofstream outAnomalies("anomalies.txt", std::ios::out);
+		std::ofstream outPosition("position.txt", std::ios::out);
+		std::ofstream outVelocities("velocities.txt", std::ios::out);
 
 
 		int iterationCount = T / iteration_delta + 1;
@@ -397,9 +397,12 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 					tstr = std::to_string(i * iteration_delta);
 
+					std::cout << vstr << "\n";
+
 					outAnomalies << vstr << " " << Estr << " " << Mstr << " " << tstr << "\n";
 					outPosition << rstr << " " << tstr << "\n";
 					outVelocities << Vrstr << " " << Vnstr << " " << Vstr << " " << tstr << "\n";
+
 
 				}
 
