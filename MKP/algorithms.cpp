@@ -1,13 +1,15 @@
-#include "MKP.h"
+п»ї#include "MKP.h"
 #include "fstream"
 
 
 using namespace mkp;
 
 
-//Реализация метода половинного деления
+//Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° РїРѕР»РѕРІРёРЅРЅРѕРіРѕ РґРµР»РµРЅРёСЏ
 double mkp::bisection(double M, double e, double epsilon, int max_it)
 {
+
+	int iterationsCount = 0;
 
 	struct abPares
 	{
@@ -34,7 +36,10 @@ double mkp::bisection(double M, double e, double epsilon, int max_it)
 		double f = KeplerEquation(M, e, E);
 
 		if (f == 0)
+		{
+			std::cout << iterationsCount << "\n";
 			return E;
+		}
 
 		double fa = KeplerEquation(M, e, a);
 		double fb = KeplerEquation(M, e, b);
@@ -57,7 +62,12 @@ double mkp::bisection(double M, double e, double epsilon, int max_it)
 
 		}
 
+		iterationsCount++;
+
 	}
+
+
+	std::cout << iterationsCount << "\n";
 
 	abPares retValue = seqOfSegments_ab[seqOfSegments_ab.size() - 1];
 
@@ -66,9 +76,11 @@ double mkp::bisection(double M, double e, double epsilon, int max_it)
 }
 
 
-//Реализации метода золотого сечения
+//Р РµР°Р»РёР·Р°С†РёРё РјРµС‚РѕРґР° Р·РѕР»РѕС‚РѕРіРѕ СЃРµС‡РµРЅРёСЏ
 double mkp::goldensection(double M, double e, double epsilon, int max_it)
 {
+
+	int iterationscount = 0;
 
 	struct abPares
 	{
@@ -95,7 +107,11 @@ double mkp::goldensection(double M, double e, double epsilon, int max_it)
 		double f = KeplerEquation(M, e, E);
 
 		if (f == 0)
+		{
+
+			std::cout << iterationscount << "\n";
 			return E;
+		}
 
 		double fa = KeplerEquation(M, e, a);
 		double fb = KeplerEquation(M, e, b);
@@ -118,7 +134,13 @@ double mkp::goldensection(double M, double e, double epsilon, int max_it)
 
 		}
 
+		iterationscount++;
+
 	}
+
+
+	std::cout << iterationscount << "\n";
+
 
 	abPares retValue = seqOfSegments_ab[seqOfSegments_ab.size() - 1];
 
@@ -127,36 +149,47 @@ double mkp::goldensection(double M, double e, double epsilon, int max_it)
 }
 
 
-//Реализация метода итераций
+//Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° РёС‚РµСЂР°С†РёР№
 double mkp::fixedpoint(double M, double e, double epsilon, int max_it)
 {
 	
 	double E0 = M;
 	double E = e * sin(E0) + M;
 
+
+	int iterationsCount = 0;
+
 	for (int i = 0; i < max_it; i++)
 	{
 
 		if (abs(E - E0) < epsilon)
+		{
+			std::cout << iterationsCount << "\n";
 			return E;
+		}
 
 		E0 = E;
 		E = e * sin(E0) + M;
 
+
+		iterationsCount++;
+
 	}
 
-	std::cout << "Max number of iterations reached\n";
+	std::cout<<iterationsCount << "\n";
 
 	return E;
 
 }
 
 
-//Реализация метода Ньютона
+//Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° РќСЊСЋС‚РѕРЅР°
 double mkp::newton(double M, double e, double epsilon, int max_it)
 {
 	
 	double E = M;
+
+	int iterationsCount = 0;
 
 	for (int i = 0; i < max_it; i++)
 	{
@@ -171,12 +204,15 @@ double mkp::newton(double M, double e, double epsilon, int max_it)
 
 
 		if (abs(dE) < epsilon)
+		{
+			std::cout << iterationsCount << "\n";
 			return E;
+		}
 
 	}
 
 
-	std::cout << "Max number of iterations reached\n";
+	std::cout<<iterationsCount << "\n";
 
 	return E;
 
@@ -184,11 +220,11 @@ double mkp::newton(double M, double e, double epsilon, int max_it)
 }
 
 
-//Функция нахождения всех параметров
+//Р¤СѓРЅРєС†РёСЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РІСЃРµС… РїР°СЂР°РјРµС‚СЂРѕРІ
 void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double, int), double epsilon, int max_it)
 {
 
-	//Для построения графиков
+	//Р”Р»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РіСЂР°С„РёРєРѕРІ
 	std::vector<std::pair<double, double>> M_graph;
 	std::vector<std::pair<double, double>> E_graph;
 	std::vector<std::pair<double, double>> v_graph;
@@ -206,7 +242,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 	std::vector<std::pair<double, double>> V_graph;
 
 
-	//Данные объекта
+	//Р”Р°РЅРЅС‹Рµ РѕР±СЉРµРєС‚Р°
 	double e = object.get_e();
 	double a = object.get_a();
 	double n = object.get_n();
@@ -215,7 +251,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 	int T = object.get_T();
 
 
-	//Фокальный праметр
+	//Р¤РѕРєР°Р»СЊРЅС‹Р№ РїСЂР°РјРµС‚СЂ
 	double p = a * (1 - e * e);
 
 
@@ -230,7 +266,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 	V_graph.emplace_back(0.f, Vn0);
 
 
-	//Расчет
+	//Р Р°СЃС‡РµС‚
 	double M, E, v, r, Vr, Vn, V;
 
 	int iteration_delta = 50;
@@ -332,7 +368,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 		std::cin >> choice;
 
 
-		int iterationCount = T / iteration_delta + 1;
+		int iterationCount = T / iteration_delta + 2;
 
 
 		std::string vstr, Mstr, Estr, rstr, Vrstr, Vnstr, Vstr, tstr;
@@ -341,7 +377,10 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 		{
 		case 1:
 
-			gp << "set title 'График аномалий объекта'\n";
+			gp << "set title 'Р“СЂР°С„РёРє Р°РЅРѕРјР°Р»РёР№ РѕР±СЉРµРєС‚Р°'\n";
+
+			gp << "set ytics pi\n";
+			gp << "set format y '%.0Ppi'\n";
 
 			gp << "plot ";
 			gp << "'-' with lines smooth mcsplines title 'v', ";
@@ -355,7 +394,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 			break;
 		case 2:
 
-			gp << "set title 'График радиус-вектора'\n";
+			gp << "set title 'Р“СЂР°С„РёРє СЂР°РґРёСѓСЃ-РІРµРєС‚РѕСЂР°'\n";
 
 			gp << "plot '-' with lines smooth mcsplines title 'r'\n";
 
@@ -363,7 +402,7 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 			break;
 		case 3:
 
-			gp << "set title 'Графики скоростей'\n";
+			gp << "set title 'Р“СЂР°С„РёРєРё СЃРєРѕСЂРѕСЃС‚РµР№'\n";
 
 			gp << "plot ";
 			gp << "'-' with lines smooth mcsplines title 'Vr', ";
@@ -396,6 +435,9 @@ void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double
 					Vstr = std::to_string(V_graph[i].second);
 
 					tstr = std::to_string(i * iteration_delta);
+
+					if(i * iteration_delta > T)
+						tstr = std::to_string(T);
 
 					outAnomalies << vstr << " " << Estr << " " << Mstr << " " << tstr << "\n";
 					outPosition << rstr << " " << tstr << "\n";
