@@ -16,9 +16,10 @@ namespace mkp
 	class SpaceObject
 	{
 
-		float e;
+		double e;
+		double n;
+
 		float a;
-		float n;
 
 		int nyu;
 		int T;
@@ -26,11 +27,12 @@ namespace mkp
 	public:
 
 
-		SpaceObject(float e, float a, int nyu);
+		SpaceObject(double e, float a, int nyu);
 
-		float get_e();
+		double get_e();
+		double get_n();
+
 		float get_a();
-		float get_n();
 
 		int get_nyu();
 		int get_T();
@@ -38,20 +40,20 @@ namespace mkp
 	};
 
 
-	float KeplerEquation(float M, float e, float E);
+	double KeplerEquation(double M, double e, double E);
 
-	float trueAnomaly(float e, float E);
+	double trueAnomaly(double e, double E);
 
 
-	float bisection(float M, float e, float epsilon, int max_it);
+	double bisection(double M, double e, double epsilon, int max_it);
 
-	float goldensection(float M, float e, float epsilon, int max_it);
+	double goldensection(double M, double e, double epsilon, int max_it);
 
-	float fixedpoint(float M, float e, float epsilon, int max_it);
+	double fixedpoint(double M, double e, double epsilon, int max_it);
 
-	float newton(float M, float e, float epsilon, int max_it);
+	double newton(double M, double e, double epsilon, int max_it);
 
-	void rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it);
+	void rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double, int), double epsilon, int max_it);
 
 
 }

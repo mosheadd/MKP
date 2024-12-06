@@ -6,22 +6,22 @@ using namespace mkp;
 
 
 //Реализация метода половинного деления
-float mkp::bisection(float M, float e, float epsilon, int max_it)
+double mkp::bisection(double M, double e, double epsilon, int max_it)
 {
 
 	struct abPares
 	{
 
-		float a;
-		float b;
+		double a;
+		double b;
 
-		abPares(float a, float b) : a(a), b(b) {}
+		abPares(double a, double b) : a(a), b(b) {}
 
 	};
 
 
-	float a = 0;
-	float b = 2 * PI;
+	double a = 0;
+	double b = 2 * PI;
 
 	std::vector<abPares> seqOfSegments_ab;
 
@@ -29,15 +29,15 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 	for (int i = 0; i < max_it; i++)
 	{
 
-		float E = (a + b) / 2;
+		double E = (a + b) / 2;
 
-		float f = KeplerEquation(M, e, E);
+		double f = KeplerEquation(M, e, E);
 
 		if (f == 0)
 			return E;
 
-		float fa = KeplerEquation(M, e, a);
-		float fb = KeplerEquation(M, e, b);
+		double fa = KeplerEquation(M, e, a);
+		double fb = KeplerEquation(M, e, b);
 
 		if (fa * fb < 0)
 			seqOfSegments_ab.push_back(abPares(a, b));
@@ -67,22 +67,22 @@ float mkp::bisection(float M, float e, float epsilon, int max_it)
 
 
 //Реализации метода золотого сечения
-float mkp::goldensection(float M, float e, float epsilon, int max_it)
+double mkp::goldensection(double M, double e, double epsilon, int max_it)
 {
 
 	struct abPares
 	{
 
-		float a;
-		float b;
+		double a;
+		double b;
 
-		abPares(float a, float b) : a(a), b(b) {}
+		abPares(double a, double b) : a(a), b(b) {}
 
 	};
 
 
-	float a = 0;
-	float b = 2 * PI;
+	double a = 0;
+	double b = 2 * PI;
 
 	std::vector<abPares> seqOfSegments_ab;
 
@@ -90,15 +90,15 @@ float mkp::goldensection(float M, float e, float epsilon, int max_it)
 	for (int i = 0; i < max_it; i++)
 	{
 
-		float E = a + (b - a) / kappa;
+		double E = a + (b - a) / kappa;
 
-		float f = KeplerEquation(M, e, E);
+		double f = KeplerEquation(M, e, E);
 
 		if (f == 0)
 			return E;
 
-		float fa = KeplerEquation(M, e, a);
-		float fb = KeplerEquation(M, e, b);
+		double fa = KeplerEquation(M, e, a);
+		double fb = KeplerEquation(M, e, b);
 
 		if (fa * fb < 0)
 			seqOfSegments_ab.push_back(abPares(a, b));
@@ -128,11 +128,11 @@ float mkp::goldensection(float M, float e, float epsilon, int max_it)
 
 
 //Реализация метода итераций
-float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
+double mkp::fixedpoint(double M, double e, double epsilon, int max_it)
 {
 	
-	float E0 = M;
-	float E = e * sin(E0) + M;
+	double E0 = M;
+	double E = e * sin(E0) + M;
 
 	for (int i = 0; i < max_it; i++)
 	{
@@ -153,19 +153,19 @@ float mkp::fixedpoint(float M, float e, float epsilon, int max_it)
 
 
 //Реализация метода Ньютона
-float mkp::newton(float M, float e, float epsilon, int max_it)
+double mkp::newton(double M, double e, double epsilon, int max_it)
 {
 	
-	float E = M;
+	double E = M;
 
 	for (int i = 0; i < max_it; i++)
 	{
 
-		float f = KeplerEquation(M, e, E);
-		float df = 1 - e * cos(E);
+		double f = KeplerEquation(M, e, E);
+		double df = 1 - e * cos(E);
 
 
-		float dE = -(f / df);
+		double dE = -(f / df);
 
 		E += dE;
 
@@ -185,45 +185,45 @@ float mkp::newton(float M, float e, float epsilon, int max_it)
 
 
 //Функция нахождения всех параметров
-void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, int), float epsilon, int max_it)
+void mkp::rootsOfKepEq(SpaceObject& object, double(*func)(double, double, double, int), double epsilon, int max_it)
 {
 
 	//Для построения графиков
-	std::vector<std::pair<float, float>> M_graph;
-	std::vector<std::pair<float, float>> E_graph;
-	std::vector<std::pair<float, float>> v_graph;
+	std::vector<std::pair<double, double>> M_graph;
+	std::vector<std::pair<double, double>> E_graph;
+	std::vector<std::pair<double, double>> v_graph;
 
 	M_graph.emplace_back(0.f, 0.f);
 	E_graph.emplace_back(0.f, 0.f);
 	v_graph.emplace_back(0.f, 0.f);
 
 
-	std::vector <std::pair<float, float>> r_graph;
+	std::vector <std::pair<double, double>> r_graph;
 
 
-	std::vector<std::pair<float, float>> Vr_graph;
-	std::vector<std::pair<float, float>> Vn_graph;
-	std::vector<std::pair<float, float>> V_graph;
+	std::vector<std::pair<double, double>> Vr_graph;
+	std::vector<std::pair<double, double>> Vn_graph;
+	std::vector<std::pair<double, double>> V_graph;
 
 
 	//Данные объекта
-	float e = object.get_e();
-	float a = object.get_a();
-	float n = object.get_n();
+	double e = object.get_e();
+	double a = object.get_a();
+	double n = object.get_n();
 
 	int nyu = object.get_nyu();
 	int T = object.get_T();
 
 
 	//Фокальный праметр
-	float p = a * (1 - e * e);
+	double p = a * (1 - e * e);
 
 
-	float r0 = p / (1 + e);
+	double r0 = p / (1 + e);
 	r_graph.emplace_back(0.f, r0);
 
 
-	float Vn0 = sqrt(nyu / p) * (1 + e);
+	double Vn0 = sqrt(nyu / p) * (1 + e);
 
 	Vr_graph.emplace_back(0.f, 0.f);
 	Vn_graph.emplace_back(0.f, Vn0);
@@ -231,26 +231,26 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 
 	//Расчет
-	float M, E, v, r, Vr, Vn, V;
+	double M, E, v, r, Vr, Vn, V;
 
-	int iteration_delta = 500;
+	int iteration_delta = 50;
 
 	for (int t = iteration_delta; t < T; t += iteration_delta)
 	{
 
 		M = n * t;
 
-		M_graph.emplace_back((float)t, M);
+		M_graph.emplace_back((double)t, M);
 
 
 		E = func(M, e, epsilon, max_it);
 
-		E_graph.emplace_back((float)t, E);
+		E_graph.emplace_back((double)t, E);
 
 
 		v = trueAnomaly(e, E);
 
-		v_graph.emplace_back((float)t, v);
+		v_graph.emplace_back((double)t, v);
 
 
 		r = p / (1 + e * cos(v));
@@ -260,34 +260,34 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 		Vr = sqrt(nyu / p) * e * sin(v);
 
-		Vr_graph.emplace_back((float)t, Vr);
+		Vr_graph.emplace_back((double)t, Vr);
 
 
 		Vn = sqrt(nyu / p) * (1 + e * cos(v));
 
-		Vn_graph.emplace_back((float)t, Vn);
+		Vn_graph.emplace_back((double)t, Vn);
 
 
 		V = sqrt(Vr * Vr + Vn * Vn);
 
-		V_graph.emplace_back((float)t, V);
+		V_graph.emplace_back((double)t, V);
 
 
 	}
 
 	M = n * T;
 
-	M_graph.emplace_back((float)T, M);
+	M_graph.emplace_back((double)T, M);
 
 
 	E = func(M, e, epsilon, 10000);
 
-	E_graph.emplace_back((float)T, E);
+	E_graph.emplace_back((double)T, E);
 
 
 	v = trueAnomaly(e, E);
 
-	v_graph.emplace_back((float)T, v);
+	v_graph.emplace_back((double)T, v);
 
 
 	r = p / (1 + e * cos(v));
@@ -297,22 +297,20 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 	Vr = sqrt(nyu / p) * e * sin(v);
 
-	Vr_graph.emplace_back((float)T, Vr);
+	Vr_graph.emplace_back((double)T, Vr);
 
 
 	Vn = sqrt(nyu / p) * (1 + e * cos(v));
 
-	Vn_graph.emplace_back((float)T, Vn);
+	Vn_graph.emplace_back((double)T, Vn);
 
 
 	V = sqrt(Vr * Vr + Vn * Vn);
 
-	V_graph.emplace_back((float)T, V);
+	V_graph.emplace_back((double)T, V);
 
 
 	Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
-
-
 
 
 	std::ofstream outAnomalies("anomalies.txt", std::ios::out);
