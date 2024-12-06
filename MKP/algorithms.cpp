@@ -313,6 +313,13 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 	Gnuplot gp("\"C:\\Program Files\\gnuplot\\bin\\gnuplot.exe\"");
 
 
+
+
+	std::ofstream outAnomalies("anomalies.txt", std::ios::out);
+	std::ofstream outPosition("position.txt", std::ios::out);
+	std::ofstream outVelocities("velocities.txt", std::ios::out);
+
+
 	while (1)
 	{
 
@@ -325,11 +332,6 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 		int choice;
 
 		std::cin >> choice;
-
-
-		std::ofstream outAnomalies("anomalies.txt", std::ios::out);
-		std::ofstream outPosition("position.txt", std::ios::out);
-		std::ofstream outVelocities("velocities.txt", std::ios::out);
 
 
 		int iterationCount = T / iteration_delta + 1;
@@ -397,8 +399,6 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 					tstr = std::to_string(i * iteration_delta);
 
-					std::cout << vstr << "\n";
-
 					outAnomalies << vstr << " " << Estr << " " << Mstr << " " << tstr << "\n";
 					outPosition << rstr << " " << tstr << "\n";
 					outVelocities << Vrstr << " " << Vnstr << " " << Vstr << " " << tstr << "\n";
@@ -411,12 +411,12 @@ void mkp::rootsOfKepEq(SpaceObject& object, float(*func)(float, float, float, in
 
 			break;
 		default:
+			outAnomalies.close();
+			outPosition.close();
+			outVelocities.close();
+
 			return;
 		}
-
-		outAnomalies.close();
-		outPosition.close();
-		outVelocities.close();
 
 
 	}
